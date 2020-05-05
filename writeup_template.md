@@ -27,28 +27,36 @@ The steps used to approach the project are:
 ---
 
 ### Pipeline Description
+
+
 The final goal of the pipeline is to take an image and draw the left and right lane lines in the original image.
 The pipeline consisted of 6 steps:
-**1. Images are converted to grayscale**
-    This step converts the image to grayscale to easily perform edge detection on next steps; 
-    Function used: "grayscale"
-**2. Apply Gaussian smoothing**
-    The Gaussian filter has the goal to suppress any image noise and spurious gradient by averaging;
+
+**1. Images are converted to grayscale**  
+    This step converts the image to grayscale to easily perform edge detection on next steps.  
+    Function used: "grayscale"  
+    
+**2. Apply Gaussian smoothing**  
+    The Gaussian filter has the goal to suppress any image noise and spurious gradient by averaging.   
     Function used: "gaussian_blur"
-**3. Edges detection using the Canny algorithm**
-    This algorithm uses intensity gradient of the image to find edges.
+    
+**3. Edges detection using the Canny algorithm**  
+    This algorithm uses intensity gradient of the image to find edges.  
     Function used: "canny"
-**4. Define and mask the image with a region of interest** 
+    
+**4. Define and mask the image with a region of interest**   
     To design the region of interest, it is considered that the front facing camera that took the image is mounted in a fixed position on the car, such that the lane lines will always appear in the same general region of the image.
-    A quadrilateral region mask is used, defining the 4 vertices of the polygon.
+    A quadrilateral region mask is used, defining the 4 vertices of the polygon.  
     Function used: "region_of_interest"
+    
 **5. Apply Hough Transform and draw hough lines**
-    Hough Transform is a space transformation so that a line is presented by a point in this new space. This transform can be used to find points in the original space that are good candidates to belongs to a line. These lines are draw in a new image called "line_image" which has the same shape as the original one. 
+    Hough Transform is a space transformation so that a line is presented by a point in this new space. This transform can be used to find points in the original space that are good candidates to belongs to a line. These lines are draw in a new image called "line_image" which has the same shape as the original one.   
     Function used: "hough_lines"
+    
 **6. Combine line_image with the original image**
     Function used: "weighted_img"
 
-In order to draw a single line on the left and right lanes, I modified the draw_lines() function by slipting the points which belows to the left lane and to the right lane where it is considered that the left lane has slope between \[-0.9; -0.5] and the right lane has slope between \[0.5; 0.9]. Then for each lane, I took the average slope and intersection of the line and draw the left and right lane line taking into account the region of intereset. It was considered that any line can be calculated as "y=mx+b", where "m" is the slope and "b" the intersection. 
+In order to draw a single line on the left and right lanes, I modified the draw_lines() function by slipting the points which belows to the left lane and to the right lane where it is considered that the left lane has slope between \[-0.9; -0.5] and the right lane has slope between \[0.5; 0.9]. Then for each lane, I took the average slope and intersection of the line and draw the left and right lane line taking into account the region of intereset. It was considered that any line can be calculated as "y=mx+b", where "m" is the slope and "b" the intersection.   
 
 An example of the pipeline work is presented below. The original image is:
 
